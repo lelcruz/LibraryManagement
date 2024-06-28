@@ -1,9 +1,9 @@
 # Notes:
 # The library is not inheriting from books
-# This type of class is more of a composition class which a library has books
+# This type of class is more of a composition method in this class which a library has books
 
 class book:
-    def __init__(self, title=None, author=None, status=None):
+    def __init__(self):
         self.title = input("Title: ")
         self.author = input("Author:")
         self.status = input("Status: ")
@@ -20,27 +20,61 @@ class library:
         self.library_books.append(book)
 
     def viewing_library(self):
-        if self.library_books:
-            print("Books in the library: ")
-            for book in self.library_books:
-                print(book, "\n")
+        print("Books in the library:")
+        for book in self.library_books:
+            print(book)
+
+    def checkout_book(self):
+        checkout = input("Please enter the book you would like to checkout: ")
+        if not self.library_books:
+            print("Library is currently empty")
+        for book in self.library_books:
+            if book.title == checkout:
+                if book.status == "unavailable":
+                    print("The book you are trying to checkout is currently unavailable.")
+                else:
+                    print("You have now checked out:", book.title)
+                    book.status = "unavailable"
+            elif book.title != checkout:
+                print("Sorry book is not in our library selection")
 
 
+    def return_book(self):
+        return_book = input("Please enter the book you are returning: ")
+        for book in self.library_books:
+            if book.title == return_book:
+                if book.status == "available":
+                    print("The book you are trying to return is currently available.")
+                else:
+                    print("You have now returned:", book.title)
+                    book.status = "available"
+            elif book.title != return_book:
+                print("Sorry book is not in our library selection")
 
 def main():
-    temp = library()
+    cozy_reads = library()
     while True:
-        print("Hi, welcome to Cozy Reads")
+
+        print("\nHi, welcome to Cozy Reads")
         print("Choose from the menu below:")
         print("1: Add book to library")
-        print("2: View libray")
+        print("2: View libray selection")
+        print("3: Checkout book from library")
+        print("4: Return book to library")
+        print("5: Exit library")
         option = int(input("Enter your choice: "))
 
         if option == 1:
-            book_added = book()
-            temp.adding_book(book_added)
+            new_book = book()
+            cozy_reads.adding_book(new_book)
         elif option == 2:
-            temp.viewing_library()
+            cozy_reads.viewing_library()
+        elif option == 3:
+            cozy_reads.checkout_book()
+        elif option == 4:
+            cozy_reads.return_book()
+        elif option == 5:
+            break
 
 
 if __name__ == "__main__":
